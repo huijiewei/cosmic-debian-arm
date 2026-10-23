@@ -89,10 +89,6 @@ jobs:
           cp -v packages/*.deb artifacts/
           cp -v depends/*.deb artifacts/
 
-          # This public key must correspond to SIGNING_KEY.
-          test -s gpg.key
-          cp gpg.key artifacts/gpg.key
-
       - name: Create APT repository
         id: create-apt-repo
         uses: morph027/apt-repo-action@b6b977523e6a5e235075787489bb073c60b71eb4
