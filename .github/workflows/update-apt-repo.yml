@@ -21,7 +21,7 @@ jobs:
     name: Upload artifacts for APT repo
     runs-on: ubuntu-26.04-arm
     env:
-      DEPENDS_TAG: depends-20260808  # Tag for release of COSMIC Depends
+      DEPENDS_TAG: depends-20261023  # Tag for release of COSMIC Depends
       GH_TOKEN: ${{ github.token }}
     permissions:
       contents: read
