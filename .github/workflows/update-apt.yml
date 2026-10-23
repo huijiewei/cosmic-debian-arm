@@ -1,5 +1,5 @@
 
-name: Update COSMIC APT Repository
+name: Update COSMIC APT Repository to Site
 
 on:
   workflow_dispatch:
