@@ -13,7 +13,7 @@ jobs:
     name: Build ${{ matrix.component }}
     env:
       VERSION: 1.11.0
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04-arm
     strategy:
       matrix:
         component:
@@ -37,13 +37,13 @@ jobs:
           - pop-launcher
           - xdg-desktop-portal-cosmic
         arch:
-          - amd64
+          - arm64
         lfs:
           - false
         include:
           # Special case to use LFS for these components
-          - {component: cosmic-greeter, arch: amd64, lfs: true }
-          - {component: cosmic-initial-setup, arch: amd64, lfs: true }
+          - {component: cosmic-greeter, arch: arm64, lfs: true }
+          - {component: cosmic-initial-setup, arch: arm64, lfs: true }
           # arch != amd64
           - {component: cosmic-wallpapers, arch: all, lfs: true}
 

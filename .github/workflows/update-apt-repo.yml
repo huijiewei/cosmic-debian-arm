@@ -19,7 +19,7 @@ concurrency:
 jobs:
   upload-artifacts:
     name: Upload artifacts for APT repo
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04-arm
     env:
       DEPENDS_TAG: depends-20260808  # Tag for release of COSMIC Depends
       GH_TOKEN: ${{ github.token }}
@@ -53,7 +53,7 @@ jobs:
 
           # Get COSMIC version from release
           filename=$(find packages -maxdepth 1 -type f -name 'cosmic-session*')
-          release=$(basename "$filename" | sed -E 's/^cosmic-session_([^_]+)_amd64\.deb$/\1/')
+          release=$(basename "$filename" | sed -E 's/^cosmic-session_([^_]+)_arm64\.deb$/\1/')
           echo "COSMIC release version = $release"
           echo "version=${release}" >> "$GITHUB_OUTPUT"
 
@@ -91,7 +91,7 @@ jobs:
           codename: ${{ env.CODENAME }}
           suite: testing
           components: ${{ env.COMPONENTS }}
-          architectures: amd64
+          architectures: arm64
           origin: Debian APT Repository for COSMIC DE - https://github.com/lcheylus/cosmic-debian/
 
       - name: Upload Pages artifact
@@ -107,7 +107,7 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04-arm
     permissions:
       pages: write  # to deploy to Pages
       id-token: write  # to verify the deployment originates from an appropriate source

@@ -13,7 +13,7 @@ jobs:
     name: Build ${{ matrix.app }}
     env:
       VERSION: 1.11.0
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04-arm
     strategy:
       matrix:
         app: [cosmic-edit, cosmic-files, cosmic-monitor, cosmic-player, cosmic-store, cosmic-term, cosmic-viewer]
@@ -74,16 +74,16 @@ jobs:
       - name: Get infos/contents for package
         run: |
           echo "::group::Get infos for ${{ matrix.app }} package"
-          dpkg --info debian/artifacts/${{ matrix.app }}_${VERSION}_amd64.deb
+          dpkg --info debian/artifacts/${{ matrix.app }}_${VERSION}_arm64.deb
           echo "::endgroup::"
           echo "::group::Get contents for ${{ matrix.app }} package"
-          dpkg --contents debian/artifacts/${{ matrix.app }}_${VERSION}_amd64.deb
+          dpkg --contents debian/artifacts/${{ matrix.app }}_${VERSION}_arm64.deb
           echo "::endgroup::"
 
       - name: Upload package
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9  # v7.0.2
         with:
-          path: debian/artifacts/${{ matrix.app }}_${{ env.VERSION }}_amd64.deb
+          path: debian/artifacts/${{ matrix.app }}_${{ env.VERSION }}_arm64.deb
           if-no-files-found: error
           retention-days: 1
           archive: false

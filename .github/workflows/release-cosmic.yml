@@ -18,7 +18,7 @@ concurrency:
 jobs:
   valid-version:
     name: Validate tag for version
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04-arm
     steps:
       - name: Validate version
         run: |
@@ -32,7 +32,7 @@ jobs:
   build:
     name: Build ${{ matrix.component }}
     needs: valid-version
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04-arm
     strategy:
       matrix:
         component:
@@ -56,13 +56,13 @@ jobs:
           - pop-launcher
           - xdg-desktop-portal-cosmic
         arch:
-          - amd64
+          - arm64
         lfs:
           - false
         include:
           # Special case to use LFS for these components
-          - {component: cosmic-greeter, arch: amd64, lfs: true }
-          - {component: cosmic-initial-setup, arch: amd64, lfs: true }
+          - {component: cosmic-greeter, arch: arm64, lfs: true }
+          - {component: cosmic-initial-setup, arch: arm64, lfs: true }
           # arch != amd64
           - {component: cosmic-wallpapers, arch: all, lfs: true}
 
@@ -225,7 +225,7 @@ jobs:
   build-apps:
     name: Build ${{ matrix.app }}
     needs: valid-version
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04-arm
     strategy:
       matrix:
         app: [cosmic-edit, cosmic-files, cosmic-monitor, cosmic-player, cosmic-store, cosmic-term, cosmic-viewer]
@@ -285,16 +285,16 @@ jobs:
       - name: Get infos/contents for package
         run: |
           echo "::group::Get infos for ${{ matrix.app }} package"
-          dpkg --info debian/artifacts/${{ matrix.app }}_"${VERSION}"_amd64.deb
+          dpkg --info debian/artifacts/${{ matrix.app }}_"${VERSION}"_arm64.deb
           echo "::endgroup::"
           echo "::group::Get contents for ${{ matrix.app }} package"
-          dpkg --contents debian/artifacts/${{ matrix.app }}_"${VERSION}"_amd64.deb
+          dpkg --contents debian/artifacts/${{ matrix.app }}_"${VERSION}"_arm64.deb
           echo "::endgroup::"
 
       - name: Upload package
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9  # v7.0.2
         with:
-          path: debian/artifacts/${{ matrix.app }}_${{ env.VERSION }}_amd64.deb
+          path: debian/artifacts/${{ matrix.app }}_${{ env.VERSION }}_arm64.deb
           if-no-files-found: error
           retention-days: 1
           archive: false
@@ -302,7 +302,7 @@ jobs:
   release:
     name: Create release for COSMIC
     needs: [build, build-apps]
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04-arm
     permissions:
       contents: write  # Needed to create a release
 
@@ -347,7 +347,7 @@ jobs:
   commit-changelog:
     name: Commit updated changelog
     needs: release
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04-arm
     permissions:
       contents: write  # Allow to commit file
     steps:
@@ -383,7 +383,7 @@ jobs:
   create-badge:
     name: Update dynamic badge
     needs: release
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04-arm
     steps:
       - uses: schneegans/dynamic-badges-action@28b0fa8bdeb46170ac397105ece0c1fe58f68910  #v1.9.0
         with:
