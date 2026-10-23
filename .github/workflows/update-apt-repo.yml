@@ -19,7 +19,7 @@ concurrency:
 jobs:
   upload-artifacts:
     name: Upload artifacts for APT repo
-    runs-on: ubuntu-26.04-arm
+    runs-on: ubuntu-latest
     env:
       DEPENDS_TAG: depends-20261023  # Tag for release of COSMIC Depends
       GH_TOKEN: ${{ github.token }}
@@ -107,7 +107,7 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-26.04-arm
+    runs-on: ubuntu-latest
     permissions:
       pages: write  # to deploy to Pages
       id-token: write  # to verify the deployment originates from an appropriate source
